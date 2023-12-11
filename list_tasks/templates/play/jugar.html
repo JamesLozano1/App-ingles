@@ -1,0 +1,139 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Questions</title>
+</head>
+<body>
+    {% if pregunta is None %}
+    <div class="container">
+        <div>
+            <h1 style="color: white;">Ya haz respondido todas nuestras preguntas. Mira el tablero para conocer tu posición</h1>
+            <center>
+
+                <a href="{% url 'tablero' %}">
+                    <button class="comic-button">
+                        Ver Aqui
+                    </button>
+                </a>
+            </center>
+        </div>
+    </div>
+    {% else %}
+    
+    <div class="fondo">
+        <div style="background-color: rgba(0, 0, 0, 0.51); padding: 5rem;">
+            <h3 style="color: #fff;">{{ pregunta.texto }}</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                    <input type="hidden" name="pregunta_pk" value="{{ pregunta.pk }}">
+                {% for opciones in pregunta.opciones.all  %}
+                    <input type="radio" name="respuesta_pk" value="{{ opciones.pk }}" id="choice-{{forloop.counter}}">
+                    <label style="color: #fff;" for="choice-{{forloop.counter}}">
+                    {{ opciones.texto}}
+                    </label>
+                    <br>
+                    <br>
+                    <br>
+                {% endfor %}
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+    
+    {% endif %}
+</body>
+</html>
+<style>
+
+.fondo{
+        background-color: #ffffff82;
+        padding: 5rem;
+    }
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #00000082;
+}
+
+h1, h3 {
+    color: #333;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.comic-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff5252;
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px #000;
+  transition: all 0.3s ease;
+}
+
+.comic-button:hover {
+  background-color: #fff;
+  color: #ff5252;
+  border: 2px solid #ff5252;
+  box-shadow: 5px 5px 0px #ff5252;
+}
+
+.comic-button:active {
+  background-color: #fcf414;
+  box-shadow: none;
+  transform: translateY(4px);
+}
+
+
+</style>
+{% endblock %}

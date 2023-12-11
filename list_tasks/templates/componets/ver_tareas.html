@@ -1,0 +1,107 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Tasks</title>
+</head>
+<body>
+    <table class="mi-tabla">
+        <thead>
+            <tr>
+                <th>Tarea</th>
+                <th>Materia</th>
+                <th>Fecha vencimiento</th>
+                <th>Estado</th>
+                <th>detalles</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for tarea in tareas_pasadas %}
+                    <tr {% if tarea.terminada %}class="tarea-terminada"{% else %}class="tarea-no-terminada"{% endif %}>
+                        <td>{{ tarea.nombre }}</td>
+                        <td>{{ tarea.materia }}</td>
+                        <td>{{ tarea.fecha_vencimiento }}</td>
+                        {% if tarea.terminada %}
+                            <td style="background-color: cyan;">Entregada</td>
+                        {% else %}
+                            <td style="background-color: red;">Vencida</td>
+                        {% endif %}
+                        <td><a href="{% url 'detalle_tarea' tarea.id %}" class="btn">Ver más</a></td>
+                    </tr>
+                    {% endfor %}
+                    
+                    {% for tarea in tareas_futuras %}
+                    <tr {% if tarea.terminada %}class="tarea-terminada"{% else %}class="tarea-no-terminada"{% endif %}>
+                        <td>{{ tarea.nombre }}</td>
+                        <td>{{ tarea.materia }}</td>
+                        <td>{{ tarea.fecha_vencimiento }}</td>
+                        {% if tarea.terminada %}
+                            <td style="background-color: cyan;">Entregada</td>
+                        {% else %}
+                            <td style="background-color: yellow;">Hay tiempo</td>
+                        {% endif %}
+                        <td><a href="{% url 'detalle_tarea' tarea.id %}" class="btn">Ver más</a></td>
+                        
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+<style>
+    .tarea-terminada {
+        background-color: #4CAF50; /* Verde para tareas terminadas */
+    }
+
+    .tarea-no-terminada {
+        background-color: #FFA500; /* Naranja para tareas no terminadas */
+    }
+
+    .boton {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 5px;
+    }
+
+    .boton-primary:hover {
+        background-color: #0056b3;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th {
+        background-color: #f2f2f290;
+        text-align: left;
+        padding: 10px;
+        border: 3px solid #00000083;
+    }
+
+    td {
+        text-align: left;
+        padding: 10px;
+        border: 3px solid #0000007c;
+    }
+
+    tr:nth-child(odd) {
+    }
+</style>
+
+
+
+
+{% endblock %}

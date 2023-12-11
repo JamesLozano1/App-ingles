@@ -1,0 +1,126 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+    <title>Tablero</title>
+</head>
+<body>
+    <div style="background-color: rgba(0, 0, 0, 0.493); padding: 1rem;">
+        <div >
+            <center>
+                <h1>
+                    Los {{ counter_user }} mejores jugadores
+                </h1>
+            </center>
+        </div>
+
+        <table>
+            <thead>
+                <th>Posiscion</th>
+                <th>Usuario</th>
+                <th>Puntaje</th>
+            </thead>
+            <tbody>
+                {% for user_quiz in usuario_quiz %}
+                    {% if forloop.first %}
+                        <tr class="ganador">
+                            <th>{{ forloop.counter }}</th>
+                            <th>{{ user_quiz.usuario.username }}</th>
+                            <th>{{ user_quiz.puntaje_total }}</th>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <th>{{ forloop.counter }}</th>
+                            <th>{{ user_quiz.usuario.username }}</th>
+                            <th>{{ user_quiz.puntaje_total }}</th>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <style>
+        
+        .ganador{
+            animation: ganador 3s infinite;
+        }
+
+        @keyframes ganador{
+            0% {
+                background-color: greenyellow;
+                color: blue;
+            }
+            25% {
+                background-color: blue;
+                color: white;
+            }
+            50% {
+                background-color: rgb(181, 14, 214);
+                color: gold;
+            }
+            75% {
+                background-color: rgb(102, 255, 0);
+                color: #000000;
+            }
+            100% {
+                background-color: greenyellow;
+                color: #000000;
+            }
+        }
+
+body, h1, table {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: white;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+h1 {
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 2px solid #000000;
+    padding: 8px;
+    text-align: left;
+}
+
+thead {
+    background-color: #000000;
+    color: #fff;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f994;
+    color: #000000;
+}
+
+/* Add more styles as needed */
+
+    </style>
+</body>
+</html>
+{% endblock %}
